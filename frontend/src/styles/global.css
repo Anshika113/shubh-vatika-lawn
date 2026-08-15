@@ -1,0 +1,279 @@
+/* ==========================================================================
+   Shubh Vatika — tokens + base
+   ========================================================================== */
+
+:root {
+  /* palette */
+  --maroon: #7a1f3d;
+  --maroon-deep: #5d162e;
+  --maroon-ink: #43101f;
+  --marigold: #f0a202;
+  --ivory: #fbf6ec;
+  --ivory-2: #f4ecdd;
+  --foliage: #3f5d3a;
+  --gold: #c6a667;
+  --ink: #241a1c;
+  --muted: #6d5f60;
+  --line: rgba(122, 31, 61, 0.14);
+
+  /* status */
+  --ok: #3f5d3a;
+  --warn: #b7791f;
+  --busy: #9a9490;
+
+  /* type */
+  --display: "Tiro Devanagari Sanskrit", "Noto Serif Devanagari", Georgia, serif;
+  --body: "Mukta", "Noto Sans Devanagari", system-ui, -apple-system, sans-serif;
+  --num: "Mulish", "Mukta", system-ui, sans-serif;
+
+  /* layout */
+  --wrap: 1180px;
+  --gut: clamp(18px, 4.2vw, 44px);
+  --r: 4px;
+  --r-lg: 10px;
+  --header-h: 74px;
+
+  /* depth (2D→3D) */
+  --lift-1: 0 1px 2px rgba(67, 16, 31, 0.06), 0 4px 12px rgba(67, 16, 31, 0.06);
+  --lift-2: 0 2px 4px rgba(67, 16, 31, 0.08), 0 14px 34px rgba(67, 16, 31, 0.12);
+  --lift-3: 0 4px 8px rgba(67, 16, 31, 0.1), 0 28px 60px rgba(67, 16, 31, 0.2);
+}
+
+/* ==========================================================================
+   OVERSCROLL / RUBBER-BAND WHITE SCREEN FIX
+   --------------------------------------------------------------------------
+   Problem: footer par pahunch kar aur scroll karo to neeche safed patti badhti
+   thi, header par upar scroll karo to upar safed patti. Yeh layout overflow
+   nahi tha — yeh browser ka bounce hai, jo html ka default white background
+   dikha deta hai.
+
+   Fix teen parton mein:
+   1) overscroll-behavior: none  -> Chrome/Edge/Firefox/Android par bounce band.
+   2) html par fixed gradient    -> jahan bounce phir bhi ho (iOS Safari),
+      wahan canvas ivory (upar) aur maroon (neeche) paint hota hai, white nahi.
+   3) body transparent           -> taaki html ka gradient hi canvas banaye.
+   Ise kabhi hataana mat.
+   ========================================================================== */
+
+html {
+  background-color: var(--ivory);
+  background-image: linear-gradient(
+    to bottom,
+    var(--ivory) 0%,
+    var(--ivory) 50%,
+    var(--maroon-ink) 50%,
+    var(--maroon-ink) 100%
+  );
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: transparent;
+  overscroll-behavior: none;
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16.5px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--ivory);
+  /* content ke neeche bhi ivory rahe, kabhi white na dikhe */
+  isolation: isolate;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ==========================================================================
+   type
+   ========================================================================== */
+
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  font-weight: 400;
+  line-height: 1.22;
+  letter-spacing: -0.005em;
+  margin: 0;
+  color: var(--maroon-ink);
+}
+
+h1 { font-size: clamp(2rem, 5.6vw, 3.5rem); }
+h2 { font-size: clamp(1.5rem, 3.4vw, 2.35rem); }
+h3 { font-size: clamp(1.15rem, 2.2vw, 1.5rem); }
+
+p { margin: 0 0 1em; }
+p:last-child { margin-bottom: 0; }
+
+a { color: inherit; }
+
+.num {
+  font-family: var(--num);
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+}
+
+.eyebrow {
+  font-family: var(--num);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--maroon);
+  opacity: 0.72;
+  margin: 0 0 12px;
+}
+
+.lede {
+  font-size: 1.06rem;
+  color: var(--muted);
+  max-width: 62ch;
+}
+
+/* ==========================================================================
+   layout helpers
+   ========================================================================== */
+
+.wrap {
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gut);
+}
+
+.section {
+  padding-block: clamp(52px, 8vw, 96px);
+}
+
+.section--tint { background: var(--ivory-2); }
+
+.section-head {
+  margin-bottom: clamp(24px, 4vw, 40px);
+}
+
+.rule {
+  height: 1px;
+  background: linear-gradient(to right, var(--gold), rgba(198, 166, 103, 0));
+  border: 0;
+  margin: 0;
+}
+
+/* ==========================================================================
+   buttons
+   ========================================================================== */
+
+.btn {
+  --btn-bg: var(--maroon);
+  --btn-fg: var(--ivory);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 13px 24px;
+  min-height: 48px;
+  border: 1px solid transparent;
+  border-radius: var(--r);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--body);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transform: translateZ(0);
+  box-shadow: var(--lift-1);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--lift-2);
+}
+
+.btn:active { transform: translateY(0); box-shadow: var(--lift-1); }
+
+.btn--gold { --btn-bg: var(--marigold); --btn-fg: var(--maroon-ink); }
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--maroon);
+  border-color: var(--maroon);
+  box-shadow: none;
+}
+.btn--ghost:hover { background: rgba(122, 31, 61, 0.06); }
+.btn--light { --btn-bg: var(--ivory); --btn-fg: var(--maroon-ink); }
+.btn--wide { width: 100%; }
+
+/* focus — hamesha dikhna chahiye */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--marigold);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 8px;
+  z-index: 999;
+  background: var(--maroon);
+  color: var(--ivory);
+  padding: 10px 16px;
+  border-radius: var(--r);
+}
+.skip:focus { left: 12px; }
+
+/* ==========================================================================
+   3D / depth utilities
+   ========================================================================== */
+
+.scene { perspective: 1100px; }
+
+.tilt {
+  transform-style: preserve-3d;
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.3, 1),
+    box-shadow 0.35s ease;
+  will-change: transform;
+}
+
+.tilt__layer {
+  transform: translateZ(28px);
+  transform-style: preserve-3d;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+  .tilt { transform: none !important; }
+}
