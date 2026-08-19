@@ -3,6 +3,7 @@
 A modern, responsive and interactive website designed for **Shubh Vatika**, a marriage lawn and event venue.
 
 The project combines a premium Indian wedding aesthetic with interactive UI elements, venue information, packages, availability, enquiry functionality and responsive design.
+**Live Demo:** https://shubh-vatika-lawn.pages.dev
 
 > **Project Type:** Event Venue / Marriage Lawn Website
 > **Frontend:** React + Vite
